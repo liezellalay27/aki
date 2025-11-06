@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy 8th Monthsary!</title>
+    <meta name="description" content="Celebrating 8 months together — a sweet interactive letter, memories, and a pulsing heart to show your love.">
+    <meta name="theme-color" content="#16A34A">
+    <!-- Open Graph for nicer sharing -->
+    <meta property="og:title" content="Happy 8th Monthsary!">
+    <meta property="og:description" content="An interactive note and memories to celebrate our monthsary.">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><text y=%2212%22 font-size=%2212%22>❤️</text></svg>">
+    <!-- 1. Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. Load Inter font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <!-- 3. Custom CSS for fonts and heart animation -->
+    <style>
+        body {
+            /* Use Inter as the default font */
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 25%, #fbbf24 50%, #f59e0b 75%, #f97316 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .cursive {
+            /* A beautiful cursive font for headings */
+            font-family: 'Pacifico', cursive;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Simple pulsing heart animation */
+        .heart-pulse {
+            animation: pulse 1.5s infinite;
+            filter: drop-shadow(0 4px 6px rgba(239, 68, 68, 0.3));
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        /* Floating cat stickers */
+        .cat-sticker {
+            position: absolute;
+            font-size: 3rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.85;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .cat-1 { top: 10%; left: 5%; animation-delay: 0s; }
+        .cat-2 { top: 20%; right: 8%; animation-delay: 1s; }
+        .cat-3 { bottom: 15%; left: 10%; animation-delay: 2s; }
+        .cat-4 { bottom: 25%; right: 5%; animation-delay: 3s; }
+        .cat-5 { top: 50%; left: 2%; animation-delay: 1.5s; font-size: 2.5rem; }
+        .cat-6 { top: 60%; right: 3%; animation-delay: 2.5s; font-size: 2.5rem; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(-5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Enhanced card styling */
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Respect user's motion preference */
+        @media (prefers-reduced-motion: reduce) {
+            body,
+            .heart-pulse,
+            .memory-card,
+            .cat-sticker,
+            .cursive {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+
+        /* Styles for the interactive message cards */
+        .memory-card {
+            /* Start hidden, will be shown with JS (keeps layout cleaner for screen readers) */
+            display: none; 
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+            transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .memory-card.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Decorative elements */
+        .sparkle {
+            display: inline-block;
+            animation: sparkle 2s infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        /* Enhanced button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+    <body class="bg-yellow-50 min-h-screen p-4 sm:p-8 flex items-center justify-center relative">
+
+    <!-- Floating cat stickers -->
+    <div class="cat-sticker cat-1">🐱</div>
+    <div class="cat-sticker cat-2">😺</div>
+    <div class="cat-sticker cat-3">😸</div>
+    <div class="cat-sticker cat-4">😻</div>
+    <div class="cat-sticker cat-5">🐈</div>
+    <div class="cat-sticker cat-6">😽</div>
+
+    <!-- Main Content Card -->
+    <div class="main-card bg-white w-full max-w-md mx-auto rounded-2xl shadow-xl overflow-hidden relative z-20">
+        
+        <!-- Header Section with Green Background -->
+        <header class="bg-gradient-to-br from-green-400 via-green-500 to-emerald-600 p-8 text-white text-center relative overflow-hidden" role="banner">
+            <!-- Decorative elements -->
+            <div class="absolute top-2 left-4 text-3xl opacity-60">🐾</div>
+            <div class="absolute top-2 right-4 text-3xl opacity-60">🐾</div>
+            <div class="absolute bottom-2 left-8 text-2xl opacity-40">✨</div>
+            <div class="absolute bottom-2 right-8 text-2xl opacity-40">✨</div>
+            
+            <!-- You can replace "My Love" with your partner's name -->
+            <h1 class="cursive text-4xl sm:text-5xl font-bold relative z-10">
+                Happy 8 Months of Talking Aki! <span class="sparkle">💖</span>
+            </h1>
+            <p class="text-lg text-green-50 mt-3 font-medium relative z-10">To my favorite person, no distance can change that 😽</p>
+        </header>
+        
+        <main class="p-6 sm:p-8" role="main">
+            <!-- Accessible status region for announcements -->
+            <div id="aria-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+            <!-- Pulsing Heart (SVG for better accessibility) -->
+            <div class="text-red-500 text-6xl text-center heart-pulse mb-6" aria-hidden="true">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                    <path d="M12 21s-7-4.35-9-7.14C1.11 11.7 2 7.5 5 5.5 7.18 4 9.5 5 12 7.1 14.5 5 16.82 4 19 5.5c3 2 3.89 6.2 2 8.36C19 16.65 12 21 12 21z"></path>
+                </svg>
+            </div>
+
+            <!-- Intro Message -->
+                <p class="text-gray-700 text-lg text-center mb-6 leading-relaxed">
+                These 8 months have been filled with voice calls, late-night texts, and the best kind of waiting because you are worth it. 
+                <span class="inline-block">🐱💕</span> Even though we've been busy lately with our studies, I'm so grateful we always find a little time for each other. 
+                Here are a few reasons why our relationship has been so special. <span class="inline-block">✨</span>
+            </p>
+
+            <!-- Interactive Message Section -->
+            <div id="message-container" class="space-y-4 mb-6">
+                
+                <!-- This is where the messages will appear -->
+                <!-- Message 1 -->
+                <div id="msg-0" class="memory-card bg-gradient-to-br from-yellow-50 to-yellow-100 p-5 rounded-xl shadow-lg border-2 border-yellow-200" aria-hidden="true">
+                    <!-- EDITED FOR LDR -->
+                    <p class="text-gray-800 text-center font-medium text-lg">
+                        🎵 The way your voice sounds on our calls, and how you sometimes sing to me — it feels like you're right here with me. 🐱
+                    </p>
+                </div>
+                
+                <!-- Message 2 -->
+                <div id="msg-1" class="memory-card bg-gradient-to-br from-green-50 to-emerald-100 p-5 rounded-xl shadow-lg border-2 border-green-200" aria-hidden="true">
+                    <!-- EDITED FOR LDR -->
+                    <p class="text-gray-800 text-center font-medium text-lg">
+                        📱 Our late-night talks and voice calls that make every day better; it's easy since we're in the same country and timezone. 😺
+                    </p>
+                </div>
+                
+                <!-- Message 3 -->
+                <div id="msg-2" class="memory-card bg-gradient-to-br from-yellow-50 to-yellow-100 p-5 rounded-xl shadow-lg border-2 border-yellow-200" aria-hidden="true">
+                    <!-- EDITED FOR LDR -->
+                    <p class="text-gray-800 text-center font-medium text-lg">
+                        😸 How we can be silly and laugh until we cry, how you know me so well, and how you are always there to listen. 🐾
+                    </p>
+                </div>
+                
+                <!-- Message 4 -->
+                <div id="msg-3" class="memory-card bg-gradient-to-br from-green-50 to-emerald-100 p-5 rounded-xl shadow-lg border-2 border-green-200" aria-hidden="true">
+                    <!-- EDITED FOR LDR - not visited yet -->
+                    <p class="text-gray-800 text-center font-medium text-lg">
+                        🤗 I can't wait for the day we finally meet in person; imagining our first hug keeps me going. 😻
+                    </p>
+                </div>
+                
+                <!-- Final Message Card -->
+                <div id="final-msg" class="memory-card text-center bg-gradient-to-br from-pink-50 to-rose-100 p-6 rounded-xl shadow-lg border-2 border-pink-200" aria-hidden="true">
+                    <h2 class="cursive text-3xl text-green-700 mb-2">Here's to many more months and years, my love 💕</h2>
+                    <p class="text-gray-700 text-lg mt-2">Being apart sometimes makes us appreciate each other more. You are the love of my life and I love you so much. 🐱✨</p>
+                </div>
+
+            </div>
+
+            <!-- Button to reveal messages -->
+            <div class="space-y-3">
+                <button id="reveal-button" class="btn-primary w-full text-white font-bold py-3 px-6 rounded-xl text-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75" aria-controls="message-container" aria-expanded="false">
+                    Click me! 🐱
+                </button>
+
+                <!-- Progress / counter -->
+                <div id="progress" class="text-center text-sm font-semibold text-gray-600" aria-hidden="false">0 / 4 💕</div>
+
+                <!-- Replay (hidden until end) -->
+                <button id="replay-button" class="w-full bg-gradient-to-r from-yellow-400 to-orange-400 text-white font-semibold py-2 px-4 rounded-xl text-sm hover:from-yellow-500 hover:to-orange-500 transition-all duration-200 shadow-md hidden">
+                    🔄 Replay messages
+                </button>
+            </div>
+            
+            <!-- A Letter Section (replaces Photo Gallery) -->
+            <div id="letter-section" class="memory-card mt-8 pt-6 border-t-2 border-gray-200" aria-hidden="true">
+                <h3 class="text-center text-2xl font-bold text-gray-800 mb-4 cursive">A Letter For You — From Aki 💌</h3>
+                <div class="bg-gradient-to-br from-yellow-50 to-amber-50 p-6 rounded-xl shadow-lg border-2 border-yellow-200">
+                    <!-- EDIT THIS LETTER -->
+                    <p class="text-gray-700 text-lg mb-4 font-medium">My Dearest, Alexandra 😻</p>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        Eight months of calls, texts, and planning our future — who knew distance could teach me so much about patience and love? 🐱💕 I miss you every day, but I treasure the moments we create even when we're apart.
+                    </p>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        I love the way you send me little videos, the way you call me just to hear my voice, and how you make ordinary days feel special. Thank you for always being there and for listening. ✨
+                    </p>
+                    <p class="text-gray-700 leading-relaxed">
+                        I can't wait for the day we finally meet in person and share our first ML (malalang lambingan) in person together. 😸 Until then, every message and call from you is my favorite part of the day.
+                    </p>
+                    <p class="text-gray-700 mt-6 leading-relaxed font-medium">
+                        You know me so well, and you are always there for me. You are the love of my life and I love you so much, Alexandra. 💖🐾
+                    </p>
+                </div>
+            </div>
+            
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="p-6 text-center text-gray-600 bg-gradient-to-b from-transparent to-yellow-50" role="contentinfo">
+            <p class="text-lg font-medium">Always and forever,</p>
+            <!-- EDIT THIS with your name -->
+            <p class="cursive text-3xl text-amber-600 mt-1">Your Aki, Lalay 🐱💕</p>
+        </footer>
+    </div>
+
+    <!-- 4. JavaScript for Interaction -->
+    <script>
+        // Elements
+        const revealButton = document.getElementById('reveal-button');
+        const replayButton = document.getElementById('replay-button');
+        const finalMessage = document.getElementById('final-msg');
+        const letterSection = document.getElementById('letter-section');
+        const ariaStatus = document.getElementById('aria-status');
+        const progressEl = document.getElementById('progress');
+
+        // Config
+        const totalMessages = 4; // update if messages change
+        let currentMessageIndex = 0;
+
+        function announce(text) {
+            // Small debounce to ensure screen readers pick up changes
+            ariaStatus.textContent = '';
+            setTimeout(() => { ariaStatus.textContent = text; }, 50);
+        }
+
+        function updateProgress() {
+            progressEl.textContent = `${currentMessageIndex} / ${totalMessages} 💕`;
+        }
+
+        function showMessageAt(index) {
+            const el = document.getElementById('msg-' + index);
+            if (!el) return;
+            el.classList.add('show');
+            el.removeAttribute('aria-hidden');
+            // Announce a short excerpt for assistive tech
+            announce(el.innerText.trim().slice(0, 200));
+        }
+
+        revealButton.addEventListener('click', () => {
+            if (currentMessageIndex < totalMessages) {
+                showMessageAt(currentMessageIndex);
+                currentMessageIndex++;
+                updateProgress();
+
+                if (currentMessageIndex === 1) {
+                    revealButton.textContent = 'And another one... 😸';
+                } else if (currentMessageIndex === totalMessages) {
+                    revealButton.textContent = 'One last one... 💖';
+                }
+
+            } else {
+                // Reveal final pieces
+                letterSection.classList.add('show');
+                letterSection.removeAttribute('aria-hidden');
+                finalMessage.classList.add('show');
+                finalMessage.removeAttribute('aria-hidden');
+                announce('Here is the final message and a letter.');
+                updateProgress();
+
+                // Hide reveal and show replay
+                revealButton.style.display = 'none';
+                replayButton.classList.remove('hidden');
+                replayButton.focus();
+            }
+        });
+
+        // Replay (reset) behavior
+        replayButton.addEventListener('click', () => {
+            // Hide messages
+            for (let i = 0; i < totalMessages; i++) {
+                const el = document.getElementById('msg-' + i);
+                if (el) {
+                    el.classList.remove('show');
+                    el.setAttribute('aria-hidden', 'true');
+                }
+            }
+
+            // Hide final and letter
+            finalMessage.classList.remove('show');
+            finalMessage.setAttribute('aria-hidden', 'true');
+            letterSection.classList.remove('show');
+            letterSection.setAttribute('aria-hidden', 'true');
+
+            // Reset counters and UI
+            currentMessageIndex = 0;
+            updateProgress();
+            revealButton.style.display = '';
+            revealButton.textContent = 'Click me! 🐱';
+            revealButton.setAttribute('aria-expanded', 'false');
+            replayButton.classList.add('hidden');
+            announce('Messages reset. Press the button to reveal them again.');
+            revealButton.focus();
+        });
+
+        // Initialize progress
+        updateProgress();
+    </script>
+
+</body>
+</html>
